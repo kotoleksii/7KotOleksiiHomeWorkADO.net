@@ -268,6 +268,7 @@ namespace _7KotOleksiiHomeWorkADO.net
             this.btnSave.TabIndex = 25;
             this.btnSave.Text = "ЗБЕРЕГТИ";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnCancel
             // 

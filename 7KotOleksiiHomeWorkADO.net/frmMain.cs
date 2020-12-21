@@ -28,16 +28,12 @@ namespace _7KotOleksiiHomeWorkADO.net
             dgvMain.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             showData();
-
-
         }
 
         public void showData()
         {
             try
             {
-                //string selectQuery = "select s.id, s.lastname as 'прізвище', s.firstname as 'ім`я', s.midname as 'по-батькові', s.birthday as 'народження', s.gender as 'стать', s.nationality as 'національність', i_d.id as 'id докум', i_d.type as 'тип', i_d.series as 'серія', i_d.number as 'номер', i_d.issued as 'ким видано', e_d.id as 'id освіт докум', e_d.type as 'тип освіт докум', e_d.series as 'серія освіт докум', e_d.number as 'номер освіт докум', e_d.issue_date as 'дата видачі освіт докум', e_d.issued_org as 'ким видано освіт докум' from students as s JOIN identity_documents as i_d ON s.id = i_d.student_id JOIN education_documents as e_d ON s.id = e_d.student_id";
-
                 adapter = new SqlDataAdapter("selectStudentAdapterCommand", connection);
                 SqlCommandBuilder cb = new SqlCommandBuilder(adapter);
 
@@ -49,6 +45,47 @@ namespace _7KotOleksiiHomeWorkADO.net
             {
                 MessageBox.Show($"ERROR: {ex.Message}");
             }
+        }
+
+        public void shareData()
+        {
+            int selectedIndex = dgvMain.SelectedRows[0].Index;
+            int rowId = int.Parse(dgvMain[0, selectedIndex].Value.ToString());
+
+            string txtSecondName = dgvMain.SelectedRows[0].Cells[1].Value.ToString();
+            string txtFirstName = dgvMain.SelectedRows[0].Cells[2].Value.ToString();
+            string txtMidName = dgvMain.SelectedRows[0].Cells[3].Value.ToString();
+            string dtpBirthday = dgvMain.SelectedRows[0].Cells[4].Value.ToString();
+            string cbxGender = dgvMain.SelectedRows[0].Cells[5].Value.ToString();
+            string cbxNationality = dgvMain.SelectedRows[0].Cells[6].Value.ToString();
+            string cbxDocument = dgvMain.SelectedRows[0].Cells[8].Value.ToString();
+            string txtSeriesDocument = dgvMain.SelectedRows[0].Cells[9].Value.ToString();
+            string txtNumberDocument = dgvMain.SelectedRows[0].Cells[10].Value.ToString();
+            string txtIssued = dgvMain.SelectedRows[0].Cells[11].Value.ToString();
+            string cbxEducDocument = dgvMain.SelectedRows[0].Cells[13].Value.ToString();
+            string txtEducSeries = dgvMain.SelectedRows[0].Cells[14].Value.ToString();
+            string txtEducNumber = dgvMain.SelectedRows[0].Cells[15].Value.ToString();
+            string dtpEducDocument = dgvMain.SelectedRows[0].Cells[16].Value.ToString();
+            string txtEducIssue = dgvMain.SelectedRows[0].Cells[17].Value.ToString();
+            string txtCode = dgvMain.SelectedRows[0].Cells[19].Value.ToString();
+
+            frmEdit.parameters.txtSecondName = txtSecondName;
+            frmEdit.parameters.txtFirstName = txtFirstName;
+            frmEdit.parameters.txtMidName = txtMidName;
+            frmEdit.parameters.dtpBirthday = dtpBirthday;
+            frmEdit.parameters.cbxGender = cbxGender;
+            frmEdit.parameters.cbxNationality = cbxNationality;
+            frmEdit.parameters.cbxDocument = cbxDocument;
+            frmEdit.parameters.txtSeriesDocument = txtSeriesDocument;
+            frmEdit.parameters.txtNumberDocument = txtNumberDocument;
+            frmEdit.parameters.txtIssued = txtIssued;
+            frmEdit.parameters.cbxEducDocument = cbxEducDocument;
+            frmEdit.parameters.txtEducSeries = txtEducSeries;
+            frmEdit.parameters.txtEducNumber = txtEducNumber;
+            frmEdit.parameters.dtpEducDocument = dtpEducDocument;
+            frmEdit.parameters.txtEducIssue = txtEducIssue;
+            frmEdit.parameters.txtCode = txtCode;
+            frmEdit.parameters.id = rowId;
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -63,24 +100,7 @@ namespace _7KotOleksiiHomeWorkADO.net
 
             if (dgvMain.SelectedRows.Count > 0)
             {
-
-                string txtSecondName = dgvMain.SelectedRows[0].Cells[1].Value.ToString();
-                string txtFirstName = dgvMain.SelectedRows[0].Cells[2].Value.ToString();
-                string txtMidName = dgvMain.SelectedRows[0].Cells[3].Value.ToString();
-                string dtpBirthday = dgvMain.SelectedRows[0].Cells[4].Value.ToString();
-                string cbxGender = dgvMain.SelectedRows[0].Cells[5].Value.ToString();
-                string cbxNationality = dgvMain.SelectedRows[0].Cells[6].Value.ToString();
-
-
-                frmEdit.parameters.txtSecondName = txtSecondName;
-                frmEdit.parameters.txtFirstName = txtFirstName;
-                frmEdit.parameters.txtMidName = txtMidName;
-                frmEdit.parameters.dtpBirthday = dtpBirthday;
-                frmEdit.parameters.cbxGender = cbxGender;
-                frmEdit.parameters.cbxNationality = cbxNationality;
-
-
-                //showData();
+                shareData();
 
                 frmEdit.Show();
             }        
