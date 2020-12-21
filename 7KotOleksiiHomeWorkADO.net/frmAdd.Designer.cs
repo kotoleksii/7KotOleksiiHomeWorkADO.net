@@ -61,6 +61,7 @@ namespace _7KotOleksiiHomeWorkADO.net
             this.txtFirstName.Name = "txtFirstName";
             this.txtFirstName.Size = new System.Drawing.Size(179, 26);
             this.txtFirstName.TabIndex = 1;
+            this.txtFirstName.TabStop = false;
             this.txtFirstName.Enter += new System.EventHandler(this.txtFirstName_Enter);
             this.txtFirstName.Leave += new System.EventHandler(this.txtFirstName_Leave);
             // 
@@ -71,6 +72,7 @@ namespace _7KotOleksiiHomeWorkADO.net
             this.txtSecondName.Name = "txtSecondName";
             this.txtSecondName.Size = new System.Drawing.Size(179, 26);
             this.txtSecondName.TabIndex = 0;
+            this.txtSecondName.TabStop = false;
             this.txtSecondName.Enter += new System.EventHandler(this.txtSecondName_Enter);
             this.txtSecondName.Leave += new System.EventHandler(this.txtSecondName_Leave);
             // 
@@ -84,6 +86,7 @@ namespace _7KotOleksiiHomeWorkADO.net
             this.dtpBirthday.Name = "dtpBirthday";
             this.dtpBirthday.Size = new System.Drawing.Size(203, 26);
             this.dtpBirthday.TabIndex = 4;
+            this.dtpBirthday.TabStop = false;
             this.dtpBirthday.Value = new System.DateTime(2020, 12, 17, 10, 4, 32, 0);
             this.dtpBirthday.ValueChanged += new System.EventHandler(this.dtpBirthday_ValueChanged);
             // 
@@ -255,6 +258,7 @@ namespace _7KotOleksiiHomeWorkADO.net
             this.txtMidName.Name = "txtMidName";
             this.txtMidName.Size = new System.Drawing.Size(179, 26);
             this.txtMidName.TabIndex = 2;
+            this.txtMidName.TabStop = false;
             this.txtMidName.Enter += new System.EventHandler(this.txtMidName_Enter);
             this.txtMidName.Leave += new System.EventHandler(this.txtMidName_Leave);
             // 

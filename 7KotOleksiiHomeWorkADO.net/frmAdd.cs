@@ -132,6 +132,171 @@ namespace _7KotOleksiiHomeWorkADO.net
             {
                 cbxNationality.Items.Add(country);
             }
+        }      
+
+        private async void btnSave_Click(object sender, EventArgs e)
+        {
+            if (txtMidName.Text == "По-батькові")
+                txtMidName.Text = "";
+
+            if (txtSecondName.Text == "Прізвище *" || txtSecondName.Text == String.Empty)
+            {
+                using (new CenterWinDialog(this))
+                {
+                    MessageBox.Show("Прізвище вказується обов`язково!");
+                }
+                return;
+            }
+            if (txtFirstName.Text == "Ім`я *" || txtFirstName.Text == String.Empty)
+            {
+                using (new CenterWinDialog(this))
+                {
+                    MessageBox.Show("Ім`я вказується обов`язково!");
+                }
+                return;
+            }
+            if (dtpBirthday.Text == "Дата народження *" || dtpBirthday.Text == String.Empty)
+            {
+                using (new CenterWinDialog(this))
+                {
+                    MessageBox.Show("Дата народження вказується обов`язково!");
+                }
+                return;
+            }
+            if (cbxGender.Text == String.Empty)
+            {
+                using (new CenterWinDialog(this))
+                {
+                    MessageBox.Show("Стать вказується обов`язково!");
+                }
+                return;
+            }
+            if (cbxNationality.Text == String.Empty)
+            {
+                using (new CenterWinDialog(this))
+                {
+                    MessageBox.Show("Країна походження вказується обов`язково!");
+                }
+                return;
+            }
+            if (cbxDocument.Text == String.Empty)
+            {
+                using (new CenterWinDialog(this))
+                {
+                    MessageBox.Show("Тип документа вказується обов`язково!");
+                }
+                return;
+            }
+            if (txtSeriesDocument.Text == "Серія")
+            {
+                txtSeriesDocument.Text = String.Empty;
+            }
+            if (txtNumberDocument.Text == "Номер *" || txtNumberDocument.Text == String.Empty)
+            {
+                using (new CenterWinDialog(this))
+                {
+                    MessageBox.Show("Номер документа вказується обов`язково!");
+                }
+                return;
+            }
+            if (txtIssued.Text == "Ким видано")
+            {
+                txtIssued.Text = String.Empty;
+            }
+            if (cbxEducDocument.Text == String.Empty)
+            {
+                using (new CenterWinDialog(this))
+                {
+                    MessageBox.Show("Тип документа про освіту  вказується обов`язково!");
+                }
+                return;
+            }
+            if (txtEducSeries.Text == "Серія")
+            {
+                txtEducSeries.Text = String.Empty;
+            }
+            if (txtEducNumber.Text == "Номер *" || txtEducNumber.Text == String.Empty)
+            {
+                using (new CenterWinDialog(this))
+                {
+                    MessageBox.Show("Номер документа вказується обов`язково!");
+                }
+                return;
+            }
+            if (dtpEducDocument.Text == "Дата видачі *" || dtpEducDocument.Text == String.Empty)
+            {
+                using (new CenterWinDialog(this))
+                {
+                    MessageBox.Show("Дата видачі документа вказується обов`язково!");
+                }
+                return;
+            }
+            if (txtEducIssue.Text == "ЗО, що видав документ *" || txtEducIssue.Text == String.Empty)
+            {
+                using (new CenterWinDialog(this))
+                {
+                    MessageBox.Show("ЗО, що видав документ, вказується обов`язково!");
+                }
+                return;
+            }
+            if (txtCode.Text == "Номер")
+            {
+                txtCode.Text = String.Empty;
+            }
+
+            try
+            {
+                await connection.OpenAsync();
+
+                SqlCommand cmd = new SqlCommand("InsertStudentsAdapterCommand", connection)
+                {
+                    CommandType = CommandType.StoredProcedure,
+                    CommandTimeout = 3
+                };
+
+                cmd.Parameters.Add("@firstname", SqlDbType.NVarChar, 50, "firstname").Value = txtFirstName.Text;
+                cmd.Parameters.Add("@lastname", SqlDbType.NVarChar, 50, "lastname").Value = txtSecondName.Text;
+                cmd.Parameters.Add("@midname", SqlDbType.NVarChar, 50, "midname").Value = txtMidName.Text;
+                cmd.Parameters.Add("@birthday", SqlDbType.SmallDateTime).Value = dtpBirthday.Value.ToShortDateString();
+                cmd.Parameters.Add("@gender", SqlDbType.NVarChar, 10, "gender").Value = cbxGender.Text;
+                cmd.Parameters.Add("@nationality", SqlDbType.NVarChar, 50, "nationality").Value = cbxNationality.Text;
+
+                cmd.Parameters.Add("@Itype", SqlDbType.NVarChar, 50, "type").Value = cbxDocument.Text;
+                cmd.Parameters.Add("@Iseries", SqlDbType.NVarChar, 50, "series").Value = txtSeriesDocument.Text;
+                cmd.Parameters.Add("@Inumber", SqlDbType.NVarChar, 50, "number").Value = txtNumberDocument.Text;
+                cmd.Parameters.Add("@Iissued", SqlDbType.NVarChar, 50, "issued").Value = txtIssued.Text;
+
+                cmd.Parameters.Add("@Etype", SqlDbType.NVarChar, 50, "type").Value = cbxEducDocument.Text;
+                cmd.Parameters.Add("@Eseries", SqlDbType.NVarChar, 50, "series").Value = txtEducSeries.Text;
+                cmd.Parameters.Add("@Enumber", SqlDbType.NVarChar, 50, "number").Value = txtEducNumber.Text;
+                cmd.Parameters.Add("@Eissue_date", SqlDbType.SmallDateTime).Value = dtpEducDocument.Value.ToShortDateString();
+                cmd.Parameters.Add("@Eissued_org", SqlDbType.NVarChar, 50, "issued_org").Value = txtEducIssue.Text;
+
+                cmd.Parameters.Add("@code", SqlDbType.NVarChar, 50, "code").Value = txtCode.Text;
+
+                await cmd.ExecuteNonQueryAsync();
+
+                adapter.InsertCommand = cmd;
+
+                using (new CenterWinDialog(this))
+                    MessageBox.Show("Student added!");
+
+                frmMain mainFrm = new frmMain();
+                mainFrm.showData();
+                Hide();             
+                mainFrm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"ERROR: {ex.Message}");
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            Hide();
+            frmMain main = new frmMain();
+            main.Show();
         }
 
         private void txtMidName_Enter(object sender, EventArgs e)
@@ -263,67 +428,7 @@ namespace _7KotOleksiiHomeWorkADO.net
         private void txtCode_Leave(object sender, EventArgs e)
         {
             if (txtCode.Text == "")
-                txtCode.Text = "Номер";          
-        }
-
-        private async void btnSave_Click(object sender, EventArgs e)
-        {
-            if (txtMidName.Text == "По-батькові")
-                    txtMidName.Text = "";
-
-            try
-            {
-                await connection.OpenAsync();
-
-                SqlCommand cmd = new SqlCommand("InsertStudentsAdapterCommand", connection)
-                {
-                    CommandType = CommandType.StoredProcedure,
-                    CommandTimeout = 3
-                };
-
-                cmd.Parameters.Add("@firstname", SqlDbType.NVarChar, 50, "firstname").Value = txtFirstName.Text;
-                cmd.Parameters.Add("@lastname", SqlDbType.NVarChar, 50, "lastname").Value = txtSecondName.Text;
-                cmd.Parameters.Add("@midname", SqlDbType.NVarChar, 50, "midname").Value = txtMidName.Text;
-                cmd.Parameters.Add("@birthday", SqlDbType.SmallDateTime).Value = dtpBirthday.Value.ToShortDateString();
-                cmd.Parameters.Add("@gender", SqlDbType.NVarChar, 10, "gender").Value = cbxGender.Text;
-                cmd.Parameters.Add("@nationality", SqlDbType.NVarChar, 50, "nationality").Value = cbxNationality.Text;
-
-                cmd.Parameters.Add("@Itype", SqlDbType.NVarChar, 50, "type").Value = cbxDocument.Text;
-                cmd.Parameters.Add("@Iseries", SqlDbType.NVarChar, 50, "series").Value = txtSeriesDocument.Text;
-                cmd.Parameters.Add("@Inumber", SqlDbType.NVarChar, 50, "number").Value = txtNumberDocument.Text;
-                cmd.Parameters.Add("@Iissued", SqlDbType.NVarChar, 50, "issued").Value = txtIssued.Text;
-
-                cmd.Parameters.Add("@Etype", SqlDbType.NVarChar, 50, "type").Value = cbxEducDocument.Text;
-                cmd.Parameters.Add("@Eseries", SqlDbType.NVarChar, 50, "series").Value = txtEducSeries.Text;
-                cmd.Parameters.Add("@Enumber", SqlDbType.NVarChar, 50, "number").Value = txtEducNumber.Text;
-                cmd.Parameters.Add("@Eissue_date", SqlDbType.SmallDateTime).Value = dtpEducDocument.Value.ToShortDateString();
-                cmd.Parameters.Add("@Eissued_org", SqlDbType.NVarChar, 50, "issued_org").Value = txtEducIssue.Text;
-
-                cmd.Parameters.Add("@code", SqlDbType.NVarChar, 50, "code").Value = txtCode.Text;
-
-                await cmd.ExecuteNonQueryAsync();
-
-                adapter.InsertCommand = cmd;
-
-                using (new CenterWinDialog(this))
-                    MessageBox.Show("Student added!");
-
-                frmMain mainFrm = new frmMain();
-                mainFrm.showData();
-                Hide();
-                mainFrm.Show();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"ERROR: {ex.Message}");
-            }
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            Hide();
-            frmMain main = new frmMain();
-            main.Show();
+                txtCode.Text = "Номер";
         }
     }
 }

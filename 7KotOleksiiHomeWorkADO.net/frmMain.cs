@@ -101,7 +101,7 @@ namespace _7KotOleksiiHomeWorkADO.net
             if (dgvMain.SelectedRows.Count > 0)
             {
                 shareData();
-
+                Hide();
                 frmEdit.Show();
             }        
     }

@@ -34,6 +34,7 @@ namespace _7KotOleksiiHomeWorkADO.net
         {
             Hide();
             frmMain main = new frmMain();
+            main.showData();
             main.Show();
         }
 
@@ -130,8 +131,6 @@ namespace _7KotOleksiiHomeWorkADO.net
                 await cmd.ExecuteNonQueryAsync();
 
                 adapter.UpdateCommand = cmd;
-
-                //adapter.Update(set, "buf_table");
 
                 using (new CenterWinDialog(this))
                     MessageBox.Show("The entry has been edited!");
